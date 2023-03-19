@@ -5,11 +5,6 @@ import axios from 'axios';
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
-const myData = axios.get('https://api.github.com/users/mcascione')
-  .then(resp =>{
-    document.querySelector('.cards').appendChild(gitCard(resp.data));
-  })
-  .catch(err => console.error(err));
 
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
@@ -35,11 +30,26 @@ const myData = axios.get('https://api.github.com/users/mcascione')
     user, and adding that card to the DOM.
 */
 
-const followersArray = ['tetondan',
-  'dustinmyers',
+const followersArray = [
+  'mcascione',
+  'tetondan',
+'dustinmyers',
   'justsml',
   'luishrd',
-  'bigknell'];
+  'bigknell'
+];
+
+followersArray.forEach((username)=>{
+  getGitCard(username);
+})
+
+function getGitCard(username){
+  axios.get(`https://api.github.com/users/${username}`)
+  .then(resp =>{
+    document.querySelector('.cards').appendChild(gitCard(resp.data));
+  })
+  .catch(err => console.error(err));
+}
 
 function gitCard(gitInfo){
   const cardWrapper = document.createElement('div');
@@ -84,18 +94,6 @@ function gitCard(gitInfo){
 
   return cardWrapper; 
 }
-
-
-// followersArray.forEach((follower)=>{
-//   axios.get(`https://api.github.com/users/${follower}`)
-//     .then(resp => {
-//       const newFollower = `https://api.github.com/users/${follower}`;
-//       resp.container.appendChild(gitCard(newFollower));
-//     })
-//     .catch(err => {
-//       console.log(err);
-//     })
-// })
 
 
 /*
